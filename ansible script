@@ -1,0 +1,52 @@
+---
+- hosts: webserver
+  tasks:
+  - name: create /home/ec2-user/tars directory
+    file:
+      path: /home/ec2-user/tars
+      state: directory
+      mode: 0755
+  - name: Installing requires java
+    yum:
+      name: java-1.8.0-openjdk
+      state: present
+  - name: Setting default java
+    alternatives:
+      name: java
+      link: /usr/bin/java
+      path: /usr/lib/jvm/jre-1.8.0-openjdk/bin/java
+  - name: Install httpd package
+    yum:
+      name: httpd
+      state: latest
+
+  - name: Download file apache-tomcat
+    get_url:
+      url: http://apachemirror.wuchna.com/tomcat/tomcat-7/v7.0.99/bin/apache-tomcat-7.0.99.tar.gz
+      dest: /home/ec2-user/tars
+
+  - name: Extract contents of the previously downloaded TAR file
+    unarchive:
+      src: "/home/ec2-user/tars/apache-tomcat-7.0.99.tar.gz"
+      dest: "/home/ec2-user/"
+      remote_src: yes
+
+  - name: Starting tomcat
+    shell:  nohup /home/ec2-user/apache-tomcat-7.0.99/bin/startup.sh &
+
+  # Example git checkout from Ansible Playbooks
+#  - name: Clone bitbucket repo
+#    git:
+#     repo: https://brchandra11@bitbucket.org/brchandra11/sample-repo.git
+#      dest: /home/ec2-user/apache-tomcat-7.0.99/webapps
+#      version: master
+#      accept_hostkey: yes
+#      key_file: /root/.ssh/id_rsa
+
+   - name: Copy file sample.war
+    copy:
+      src: /ansible/sample.war
+      dest: /home/ec2-user/apache-tomcat-7.0.99/webapps
+
+
+

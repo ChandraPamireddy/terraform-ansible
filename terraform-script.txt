@@ -1,0 +1,42 @@
+provider "aws" {
+  access_key = "AKIAX3ANLCWX4N2LVGZX"
+  secret_key = "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"
+  region     = "us-east-1"
+}
+
+resource "aws_instance" "web-server" {
+  ami           = "ami-0c322300a1dd5dc79"
+  instance_type = "t2.micro"
+  key_name      = "tomcatwebserver_ec2_key"
+  tags = {
+    Name = "tomcat-webserver"
+  }
+} 
+
+resource "aws_key_pair" "tomcatwebserver_ec2_key" {
+  key_name   = "tomcatwebserver_ec2_key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC1iNuTr0JbCDt8kv6FBf5qthTe8AWoeRSja28gFFA+6J7DMp94vU5SKN1AHez/xcmRGklSenKBjgbUO7EqAWTrys9jDFcP93Qt5Am1rJ1aPy4erffY6VVrIW0pYhqPj3MMYygS/ELv1q1G87eUpeLyHIxG5ddgdpWp1rKn3DsYvSeHj/tRtSAlhBwHirSKmli/5ArwKeUIq7uXTmYYvh8RHh7xFMp3OOaZTRK5jC+S8woPrKAlfesWmav2TdIxZ+0g/OeEvBJIgQmR4ZRBh0E+1GdASwqaWJO4TVIut4j7vlJPwosNbq6cAaPrfG4i+A/yp2TCFmLoZzNkdENmA4IP ansible-master-new"
+  //  public_key = "${file("tomcatwebserver_ec2_key.pub")}"
+} 
+
+----------------------------------------------------------
+provider "aws" {
+    region =  "us-east-1"
+    access_key = "AKIA34RJX2TQ3ZDHUGXN"
+    secret_key = "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"
+}
+
+resource "aws_instance" "tomcat" {
+    ami = "ami-00eb20669e0990cb4"
+    instance_type = "t2.micro"
+    key_name   = "terra-aws-key"
+     tags = {
+      Name = "Apache-web-sample"
+        }
+}
+
+resource "aws_key_pair" "terra-aws" {
+  key_name   = "terra-aws-key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpU917A39ySJyCMrQng2vSl41AZyqdBasi79+DT6QaP647BRCRDg0Tmd1Pz6d+epBse/G9OvIJxdWgc40iYbMuwDt7xFq5mgZEVVJm/fF5ppye8dY2mZmmujTYv79Wocm5XDUdTGOZs9/1i872iTCB7ND0AyRMW1tdo76FvyIuhOg8+A4Sht7owlx8SEDsXelmcHXdp0jNgPyZAoN4PmCzUHFCF6H5XSwrM2IherzKcobzyWEKgi6Jwb7tT4fAwMsClZKxeHoZrF4B81+vrGO0CF+fwrzxt4tej+9TcQ0q6U1m4YBT3oE5wqb3R2fcEZa4lbA4ZeqBZussoIaPkKiD key123"
+
+}

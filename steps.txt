@@ -1,0 +1,115 @@
+awebspractice@gmail.com
+aws1@123
+
+awebspractice1@gmail.com
+aws1@123
+
+aws a/c logins:
+aws.testing111@gmail.com
+Awstesting111
+
+
+
+---------------------------
+Error: Error launching source instance: InvalidAMIID.NotFound: The image id '[ami-00eb20669e0990cb4]' does not exist
+        status code: 400, request id: 68c0be07-28ff-47c6-a2ca-ebc4b2e6e6d4
+
+  on aws.tf line 7, in resource "aws_instance" "example":
+   7: resource "aws_instance" "example"{
+
+solution: ensure ami instance region(us-east-1) should be mached
+------------------------------------------
+
+ansibole installatn:
+epel-release-7-12
+-----------
+
+easy_install pip
+yum install pythan-develyum 
+install python-devel
+yum install openssl-devel
+ yum install gcc
+pip install ansible 
+
+sudo yum install epel-release
+sudo amazon-linux-extras install epel
+ansible --version  
+
+
+-----------------
+[root@ip-172-31-90-151 ~]# ansible --version
+ansible 2.9.1
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible
+  executable location = /bin/ansible
+  python version = 2.7.16 (default, Nov  9 2019, 00:53:10) [GCC 7.3.1 20180712 (Red Hat 7.3.1-6)]
+------------------------------
+
+[‎12/‎30/‎2019 11:10 AM] Ravi Shankar Mosam: 
+--- 
+---
+- hosts: project
+  tasks:
+  - name: create /home/ec2-user/tars directory
+    file:
+      path: /home/ec2-user/tars
+      state: directory
+      mode: 0755
+  - name: Installing requires java
+    yum:
+      name: java-1.8.0-openjdk
+      state: present
+  - name: Setting default java
+    alternatives:
+      name: java
+      link: /usr/bin/java
+      path: /usr/lib/jvm/jre-1.8.0-openjdk/bin/java
+  - name: Install httpd package
+    yum:
+      name: httpd
+      state: latest
+
+  - name: Download file apache-tomcat
+    get_url:
+	url: http://apachemirror.wuchna.com/tomcat/tomcat-7/v7.0.99/bin/apache-tomcat-7.0.99.tar.gz
+      dest: /home/ec2-user/tars
+
+  - name: Extract contents of the previously downloaded TAR file
+    unarchive:
+      src: "/home/ec2-user/tars/apache-tomcat-7.0.99.tar.gz"
+      dest: "/home/ec2-user/"
+      remote_src: yes
+
+  - name: Starting tomcat
+    shell:  nohup /home/ec2-user/apache-tomcat-7.0.99/bin/startup.sh &
+
+  - name: Copy file sample.war
+    copy:
+      src: /ansible/sample.war
+      dest: /home/ec2-user/apache-tomcat-7.0.99/webapps
+
+  - name: check the website
+    uri:
+      url: http://54.147.235.181:8080/
+      body_format: raw
+      return_content: yes
+      method: GET
+    register: result
+  - name: print result var
+    debug:
+      var: result.content  
+
+-------------------------------------
+vi /etc/ssh/sshd_config
+permit root login yes enable
+
+---------------------------------
+password less authentication yes enable 
+service sshd restart
+-------------------------------
+passwd set cheyale
+in both
+ssh-copy-id 
+---------------------
+
